@@ -28,19 +28,19 @@ end % finished loop through days
 
 %part d
 
-xStart = -2 + (2+2).*rand(1,100)
-yStart = -2 + (2+2).*rand(1,100)
+xStart = -2 + (2+2).*rand(1,10000)
+yStart = -2 + (2+2).*rand(1,10000)
 
 figure(3);
 %plot(xStart, yStart, "ok");
 
-%part e
+%part e and f
 
 x = zeros(1,22); 
 y = zeros(1,22);
 figure(4);
 
-for k=1:100
+for k=1:10000
     x = zeros(1,22); 
     y = zeros(1,22);
     x(1) = xStart(k);
@@ -52,7 +52,36 @@ for k=1:100
         y(n+1) = 2*x(n) * y(n)+0.156;
 
     end
-    if (x(22) > 2 || x(22) < -2) || (y(22) > 2 || y(22) < -2) 
+
+    %disp(x)
+    %disp(y)
+    if x(22) > 2 || x(22) < -2 || y(22) > 2 || y(22) < -2 || (isnan(x(22))) || (isnan(y(22)))
+        plot(xStart(k),yStart(k),"or");
+    else
+        plot(xStart(k),yStart(k),"ob");
+    end
+    hold on
+end
+
+figure(5)
+
+%part g
+for k=1:10000
+    x = zeros(1,22); 
+    y = zeros(1,22);
+    x(1) = xStart(k);
+    y(1) = yStart(k);
+
+    for n=1:21
+
+        x(n+1) = (x(n))^2 - (y(n))^2 - 0.795;
+        y(n+1) = 2*x(n) * y(n)+0.1578;
+
+    end
+
+    %disp(x)
+    %disp(y)
+    if x(22) > 2 || x(22) < -2 || y(22) > 2 || y(22) < -2 || (isnan(x(22))) || (isnan(y(22)))
         plot(xStart(k),yStart(k),"or");
     else
         plot(xStart(k),yStart(k),"ob");
