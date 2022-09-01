@@ -83,27 +83,24 @@ tStart = 40;
 tStop = 47;
 I = @(t) I0*(t>tStart).*(t<tStop);
 
+vArray = zeroes(1:10);
+wArray = zeroes(1:10);
+
 % model definition
-%f = @(v,w) v - 1/3*v.^3 -w;
-%f_extra = @(v,w,t) v - 1/3*v.^3 -w + I(t);
-%g = @(v,w) eps*(v + a -b*w);
+f = @(v,w) v - 1/3*v.^3 -w;
+g = @(v,w) eps*(v + a -b*w);
 
-vArray = zeros(1:10);
-wArray = zeros(1:10);
+f_extra{1} = @(v,w,t) f(v,w) + I(t)+0.9*(v - 2*v+v);
+f_extra{2} = @(v,w,t) f(v,w) + I(t)+0.9*(v - 2*v+v);
 
-%modulus by 10
-for k = 1:100
-    
-    wrap1 = mod(k,10); 
-      
-    f_extra = @(v,w,t) v(k) - 1/3*v(k).^3 -w(k) + I(t) + 0.9*(v(wrap1) -2*v*(k) + v(k+1));
-    g = @(v,w) eps*(v(k) + a -b*w(k));
+vArray = [f1, f2, f3, f4, f5, f6, f7, f8, f9, f10];
 
-  
-    vArray(k) = f_extra;
-    wArray(k) = g;
 
-end
+wArray = [g1, g2, g3, g4, g5, g6, g7, g8, g9, g10];
+
+
+dxdt =@ (t,x) [vArray; wArray;];
+
 
 
 %[T X] = ode45(....RAND(20,1))
